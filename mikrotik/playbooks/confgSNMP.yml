@@ -1,0 +1,16 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Get config from all Mikrotik RouterOS devices
+  hosts: RouterOS
+  vars:
+    communitySNMP: public
+    location: sede
+  connection: network_cli
+  tasks:
+  - name: Config snmp
+    routeros_command:
+      commands:
+        - /snmp community set [ find default=yes ] name={{communitySNMP}}
+        - /snmp set enabled=yes location={{location}}

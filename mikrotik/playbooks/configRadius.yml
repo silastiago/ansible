@@ -1,0 +1,17 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Get config from all Mikrotik RouterOS devices
+  hosts: RouterOS
+  vars:
+    ipRadius: 192.168.10.30
+    passwordRadius: senha
+    ipSourceRadius: 192.168.10.1
+  connection: network_cli
+  tasks:
+  - name: Config Radius
+    routeros_command:
+       commands:
+        - /radius add service=login address={{ipRadius}} secret={{passwordRadius}} src-address={{ipSourceRadius}}
+        - user aaa set use-radius=yes

@@ -1,0 +1,13 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Get config from all Mikrotik RouterOS devices
+  hosts: RouterOS
+  vars:
+    name: MK-Ansible
+  connection: network_cli
+  tasks:
+  - name: Rename equipment
+    routeros_command:
+      commands: /system identity set name={{name}}

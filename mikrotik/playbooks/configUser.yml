@@ -1,0 +1,20 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Get config from all Mikrotik RouterOS devices
+  hosts: RouterOS
+  connection: network_cli
+  tasks:
+  - name: Create group
+    routeros_command:
+      commands:
+        - /user group add name=funcionario  policy="ssh,read,password,test,!local,!telnet,!ftp,!reboot,!write,!policy,!winbox,!web,!sniff,!sensitive,!api,!romon,!dude"
+  - name: Create user
+    routeros_command:
+      commands:
+        - /user add name=ansible password=ansible group=funcionario
+  - name: Disable user
+    routeros_command:
+      commands:	
+        - /user disable numbers=admin

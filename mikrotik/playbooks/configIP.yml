@@ -1,0 +1,31 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config from all Mikrotik RouterOS
+  hosts: RouterOS
+  vars:
+    ipClient: 192.168.10.1
+    ipVlan: 192.168.11.1
+    networkClient: 192.168.10.0
+    networkVlan: 192.168.11.0
+    interfaceClient: ether1
+    interfaceVlan: ether1
+    ipBridge: 192.168.12.1
+    networkBridge: 192.168.12.0
+    nameBridge: bridge
+    
+  connection: network_cli
+  tasks:
+  - name: add ip on the LAN
+    routeros_command:
+      commands: 
+        - /ip address add address={{ipClient}} network={{networkClient}} interface={{interfaceClient}}
+  - name: add ip on the Vlan
+    routeros_command:
+      commands: 
+        - /ip address add address={{ipVlan}} network={{networkVlan}} interface={{interfaceVlan}}		
+  - name: add ip on the Bridge
+    routeros_command:
+      commands:
+        - /ip address add address={{ipBridge}} network={{networkBridge}} interface={{nameBridge}}		

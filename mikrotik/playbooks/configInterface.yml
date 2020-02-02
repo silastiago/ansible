@@ -1,0 +1,30 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config from all Mikrotik RouterOS
+  hosts: RouterOS
+  vars:
+    nomeBridge: bridge
+    interfaceVlan: ether1
+    nomeVlan: v-dados
+    numeroVlan: 100
+    interfacesDisabled: [ether2, ether3, ether4]
+  connection: network_cli
+  tasks:
+  
+  - name: Create bridge
+    routeros_command:
+      commands: /interface bridge add name={{nomeBridge}}
+  
+  - name: Create vlan
+    routeros_command:
+      commands: /interface vlan add interface="{{interfaceVlan}}" name="{{nomeVlan}}" vlan-id="{{numeroVlan}}"
+  
+  - name: Deactivating interfaces
+    routeros_command:
+      commands: 
+        - /interface disable "{{ item }}"
+    with_items:
+        - "{{ interfacesDisabled }}"
+  

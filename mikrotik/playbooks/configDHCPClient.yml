@@ -1,0 +1,16 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config from all Mikrotik RouterOS
+  hosts: RouterOS
+  vars:
+    interfaceDHCP: ether1
+  connection: network_cli
+  tasks:
+  - name: Config dhcp client
+    routeros_command:
+      commands: 
+        - /ip dhcp-client add interface={{interfaceDHCP}}
+        - /ip dhcp-client enable numbers=0
+  

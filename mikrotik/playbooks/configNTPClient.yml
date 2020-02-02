@@ -1,0 +1,20 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Get config from all Mikrotik RouterOS devices
+  hosts: RouterOS
+  vars:
+    ipServerNTPPrimary: 192.168.10.1
+	ipServerNTPSecondary: 192.168.10.2
+  connection: network_cli
+  tasks: 
+  - name: Config NTP
+    routeros_command:
+      commands: /system ntp client set enabled=yes primary-ntp={{ ipServerNTPPrimary }} secondary-ntp={{ipServerNTPSecondary}}
+  - name: Config autodetect
+    routeros_command:
+      commands: /system clock set time-zone-autodetect=no
+  - name: Config clock manual
+    routeros_command:
+      commands: /system clock manual set time-zone=-03:00

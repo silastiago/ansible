@@ -1,0 +1,19 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config from all Mikrotik RouterOS
+  hosts: RouterOS
+  vars:
+     ip: 192.168.10.0/24
+    
+  connection: network_cli
+  tasks:
+  - name: Add rules on firewall
+    routeros_command:
+      commands: 
+        - /ip firewall filter remove [/ip firewall filter find]
+        - /ip firewall filter add action=accept chain=forward
+        - /ip firewall filter add action=accept chain=input src-address={{ ip }}
+        - /ip firewall filter add action=accept chain=input protocol=icmp
+        - /ip firewall filter add action=drop chain=input		

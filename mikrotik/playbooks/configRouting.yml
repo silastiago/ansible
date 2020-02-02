@@ -1,0 +1,24 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config from all Mikrotik RouterOS
+  hosts: RouterOS
+  vars:
+    nomeBridge: bridge
+	ip: 192.168.10.0/24
+	ipGateway: 192.168.10.1
+	
+  connection: network_cli
+  tasks:
+  - name: Config routing RIP
+    routeros_command:
+      commands: 
+        - /routing rip interface add interface=all receive=v2 send=v2
+        - /routing rip network add network={{ipGovernoNetwork}}
+		
+  - name: Config route static
+    routeros_command:
+      commands: 
+        - /ip route add dst-address=0.0.0.0/0 gateway="{{ipGateway}}"
+  
