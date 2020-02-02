@@ -1,0 +1,44 @@
+---
+################
+#### RouterOS ###
+#################
+- name: Config switch huawei
+  hosts: huawei
+  connection: local
+  vars:
+    cli:
+      host: 192.168.88.3
+      port: "{{ ansible_ssh_port }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_ssh_pass }}"
+  tasks:
+  - name: Create vlan
+    ce_command:
+      commands: 
+        - system-view
+        - vlan 133
+        - vlan 2048
+      provider: "{{ cli }}"
+  - name: Add ip on vlan
+    ce_command:
+      commands: 
+        - system-view
+        - interface Vlanif 2048
+        - ip address 172.40.0.71 255.255.252.0
+      provider: "{{ cli }}"
+  - name: Add vlan on the interface
+    ce_command:
+      commands: 
+        - system-view
+        - interface GigabitEthernet0/0/1
+        - description BACKBONE
+        - port link-type trunk
+        - port trunk allow-pass vlan 133 2048
+      provider: "{{ cli }}"
+  - name: Add route static
+    ce_command:
+      commands: 
+        - system-view
+        - ip route-static 0.0.0.0 0.0.0.0 172.40.0.1
+      provider: "{{ cli }}"
+
