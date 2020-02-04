@@ -1,0 +1,12 @@
+---
+################
+#### RouterOS ###
+#################
+- hosts: hades
+  tasks:
+  - name: Removing user admin
+    user:
+      name: admin
+      state: absent
+
+

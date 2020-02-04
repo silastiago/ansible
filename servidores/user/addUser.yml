@@ -1,0 +1,26 @@
+---
+################
+#### RouterOS ###
+#################
+- hosts: hades
+  tasks:
+  - name: Add group admin
+    group:
+      name: admin
+      state: present
+  
+  - name: Add user admin
+    user:
+      name: admin
+      shell: /bin/bash
+      group: admin
+      state: present
+      expires: -1
+      password: $6$mysecretsalt$EhKXk6ARKeHG30XLS3nBrFQnNu3aotcxah.0XixxsQll6vmiWr/I9DaEpSWLAn9ORmP.NjUJ/azIOBuMHxzv..
+
+  - name: Changing user sudoers
+    replace:
+      path: /etc/sudoers
+      regexp: 'root'
+      replace: 'admin'
+

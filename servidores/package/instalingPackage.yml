@@ -1,0 +1,15 @@
+---
+################
+#### RouterOS ###
+#################
+- hosts: servidor
+  tasks:
+  - name: Instalando docker
+    yum:
+      name: docker
+      state: installed
+  - name: Iniciando os serviços
+    service: 
+      name: docker
+      state: started 
+      enabled: yes
