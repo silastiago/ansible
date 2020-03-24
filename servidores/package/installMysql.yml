@@ -1,0 +1,34 @@
+---
+- hosts: server
+  tasks:
+  - name: install dependencies tool Centos
+    yum: name={{item}} state=latest update_cache=yes
+    with_items:
+          - MySQL-python
+          - mariadb-server
+          - python-devel
+    when: (ansible_facts['distribution'] == "CentOS" )
+
+  - name: Install dependencies tool Debian
+    apt:
+      pkg:
+      - python-apt
+      - mariadb-server
+      - python-pymysql
+    when: (ansible_facts['distribution'] == "Debian" )
+
+  - name: ensure mysql started
+    service: name=mariadb state=started enabled=yes
+
+  - name: Update mysql root password for all root accounts
+    mysql_user: name=root host={{item}} password=4008@R3d3s
+    with_items:
+      - 127.0.0.1
+      - ::1
+      - localhost
+
+  - name: create demo database
+    mysql_db: name=corona state=present login_user=root login_password=4008@R3d3s
+
+  - name: create demo user
+    mysql_user: name=corona password=#c@roonn@@ priv=corona.*:ALL host='%' state=present  login_user=root login_password=4008@R3d3s
