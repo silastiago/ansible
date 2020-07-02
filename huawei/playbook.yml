@@ -7,7 +7,7 @@
   connection: local
   vars:
     cli:
-      host: 192.168.88.3
+      host:  "{{ ansible_host }}"
       port: "{{ ansible_ssh_port }}"
       username: "{{ ansible_user }}"
       password: "{{ ansible_ssh_pass }}"

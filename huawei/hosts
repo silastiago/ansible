@@ -10,4 +10,4 @@
 #
 
 [huawei]
-192.168.88.3 ansible_user=user_admin ansible_ssh_pass=password_here ansible_ssh_port=22 ansible_network_os=ce_command
+192.168.88.3 ansible_host=192.168.88.3 ansible_user=user_admin ansible_ssh_pass=password_here ansible_ssh_port=22 ansible_network_os=ce_command 
